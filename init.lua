@@ -325,6 +325,8 @@ require('lazy').setup({
 
         tsserver = {},
 
+        dartls = {},
+
         lua_ls = {
           settings = {
             Lua = {

@@ -23,4 +23,27 @@ return {
     'tpope/vim-fugitive',
     cmd = { "Git", "G" },
   },
+  -- flutter/dart 개발을 위한 플러그인
+  {
+    "akinsho/flutter-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for enhanced UI
+    },
+    ft = { "dart" },
+    config = function()
+      require("flutter-tools").setup {
+        lsp = {
+          color = { enabled = true },
+          on_attach = function(_, bufnr)
+            -- dartfmt 자동 포맷팅 등 추가 설정 가능
+          end,
+        },
+        debugger = { -- flutter-tools에서 dap 연동
+          enabled = true,
+          run_via_dap = true,
+        },
+      }
+    end,
+  },
 }
