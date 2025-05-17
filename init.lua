@@ -574,6 +574,16 @@ require('lazy').setup({
               completion = {
                 callSnippet = 'Replace',
               },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME,
+                  "${3rd}/luv/library"
+                },
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
             },
           },
         },
