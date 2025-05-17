@@ -688,9 +688,10 @@ require('lazy').setup({
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        tsserver = {
+          -- 기본 설정 사용, 필요시 여기에 설정 추가
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -724,6 +725,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'typescript-language-server', -- 타입스크립트 LSP
+        'eslint_d', -- 타입스크립트 린터
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
