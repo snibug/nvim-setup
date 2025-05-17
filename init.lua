@@ -187,19 +187,19 @@ vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
 
 -- 다음탭/이전탭 이동 TAB/SHIFT+TAB
 vim.keymap.set('n', '<Tab>', function()
-  local ok, bufferline = pcall(require, "bufferline")
+  local ok, bufferline = pcall(require, 'bufferline')
   if ok and bufferline and bufferline.cycle then
     bufferline.cycle(1)
   else
-    vim.notify("bufferline.nvim이 로드되지 않았습니다.", vim.log.levels.WARN)
+    vim.notify('bufferline.nvim이 로드되지 않았습니다.', vim.log.levels.WARN)
   end
 end, { noremap = true, silent = true, desc = '다음 탭으로 이동' })
 vim.keymap.set('n', '<S-Tab>', function()
-  local ok, bufferline = pcall(require, "bufferline")
+  local ok, bufferline = pcall(require, 'bufferline')
   if ok and bufferline and bufferline.cycle then
     bufferline.cycle(-1)
   else
-    vim.notify("bufferline.nvim이 로드되지 않았습니다.", vim.log.levels.WARN)
+    vim.notify('bufferline.nvim이 로드되지 않았습니다.', vim.log.levels.WARN)
   end
 end, { noremap = true, silent = true, desc = '이전 탭으로 이동' })
 
@@ -1025,7 +1025,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
