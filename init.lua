@@ -106,7 +106,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '
+  local out = vim.fn.system { 'git', 'clone', lazyrepo, lazypath }
   if vim.v.shell_error ~= 0 then
     error('Error cloning lazy.nvim:\n' .. out)
   end
@@ -128,8 +128,7 @@ rtp:prepend(lazypath)
 
 
 require('lazy').setup({
-  
-  'NMAC427/guess-indent.nvim', 
+  'NMAC427/guess-indent.nvim',
 
   
   
@@ -182,16 +181,11 @@ require('lazy').setup({
 
   { 
     'folke/which-key.nvim',
-    event = 'VimEnter', 
+    event = 'VimEnter',
     opts = {
-      
-      
       delay = 0,
       icons = {
-        
         mappings = vim.g.have_nerd_font,
-        
-        
         keys = vim.g.have_nerd_font and {} or {
           Up = '<Up> ',
           Down = '<Down> ',
@@ -223,8 +217,6 @@ require('lazy').setup({
           F12 = '<F12>',
         },
       },
-
-      
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
@@ -464,9 +456,9 @@ require('lazy').setup({
           
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
-              return client:supports_method(method, bufnr)
+              return client.supports_method(client, method, bufnr)
             else
-              return client.supports_method(method, { bufnr = bufnr })
+              return client.supports_method and client:supports_method(method, bufnr) or false
             end
           end
 
