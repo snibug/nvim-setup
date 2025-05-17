@@ -186,8 +186,8 @@ vim.keymap.set('n', 'E', '<cmd>Neotree toggle<CR>', { desc = '파일 리스트(N
 vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
 
 -- 다음탭/이전탭 이동 TAB/SHIFT+TAB
-vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = '다음 탭으로 이동' })
-vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = '이전 탭으로 이동' })
+vim.keymap.set('n', '<Tab>', function() vim.cmd('lua require("bufferline").cycle(1)') end, { noremap = true, silent = true, desc = '다음 탭으로 이동' })
+vim.keymap.set('n', '<S-Tab>', function() vim.cmd('lua require("bufferline").cycle(-1)') end, { noremap = true, silent = true, desc = '이전 탭으로 이동' })
 
 -- gd: Go To Definition (LSP)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go To Definition' })
