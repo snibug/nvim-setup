@@ -20,10 +20,18 @@ vim.o.undofile = true
 vim.o.updatetime = 250
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', 'E', '<cmd>Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
+vim.keymap.set('n', 'O', ':tabclose<CR>', { desc = '현재 탭 닫기' })
 vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
+vim.keymap.set('n', 'gb', ':Git blame<CR>', { desc = 'Git Blame' })
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go To Definition' })
+vim.keymap.set('n', 'gl', ':Git log<CR>', { desc = 'Git Log' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 vim.schedule(function()
@@ -46,19 +54,6 @@ vim.keymap.set('n', '<S-Tab>', function()
     vim.notify('bufferline.nvim이 로드되지 않았습니다.', vim.log.levels.WARN)
   end
 end, { noremap = true, silent = true, desc = '이전 탭으로 이동' })
-
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go To Definition' })
-
-vim.keymap.set('n', 'gb', ':Git blame<CR>', { desc = 'Git Blame' })
-
-vim.keymap.set('n', 'gl', ':Git log<CR>', { desc = 'Git Log' })
-
-vim.keymap.set('n', 'O', ':tabclose<CR>', { desc = '현재 탭 닫기' })
-
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -184,7 +179,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-
       vim.keymap.set('n', 'fg', builtin.live_grep, { desc = 'Live Grep (Telescope)' })
 
       vim.keymap.set('n', '<leader>/', function()
