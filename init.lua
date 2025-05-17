@@ -691,6 +691,23 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {
           -- 기본 설정 사용, 필요시 여기에 설정 추가
+          settings = {
+            -- https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
+            typescript = {
+              format = {
+                indentSize = 2,
+                convertTabsToSpaces = true,
+                tabSize = 2,
+              },
+            },
+            javascript = {
+              format = {
+                indentSize = 2,
+                convertTabsToSpaces = true,
+                tabSize = 2,
+              },
+            },
+          },
         },
 
         lua_ls = {
