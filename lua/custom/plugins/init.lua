@@ -4,6 +4,16 @@
 -- See the kickstart.nvim README for more information
 
 return {
+  -- copilot.vim for GitHub Copilot AI code completion
+  {
+    "github/copilot.vim",
+    event = "InsertEnter",
+    config = function()
+      -- Copilot 기본 단축키 설정 (옵션)
+      vim.g.copilot_no_tab_map = true
+      vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { expr = true, silent = true, noremap = true, replace_keycodes = false })
+    end,
+  },
   -- bufferline for tab management
   {
     'akinsho/bufferline.nvim',
