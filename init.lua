@@ -758,6 +758,8 @@ require('lazy').setup({
             },
           },
         },
+
+        marksman = {}, -- markdown LSP 추가
       }
 
       -- Ensure the servers and tools above are installed
@@ -777,6 +779,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'typescript-language-server', -- 타입스크립트 LSP
         'eslint_d', -- 타입스크립트 린터
+        'marksman', -- markdown LSP
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
