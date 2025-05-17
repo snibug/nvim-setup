@@ -705,6 +705,12 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {
           -- 기본 설정 사용, 필요시 여기에 설정 추가
+          root_dir = function(fname)
+            local util = require("lspconfig.util")
+            return util.root_pattern("tsconfig.json")(fname)
+                or util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
+                or util.path.dirname(fname)
+          end,
           settings = {
             -- https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
             typescript = {
