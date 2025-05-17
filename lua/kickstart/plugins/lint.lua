@@ -8,10 +8,11 @@ return {
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' }, -- markdownlint 비활성화
         python = { 'flake8' },
-        javascript = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
+        -- eslint_d는 formatter로만 사용하고, 진단 메시지는 비활성화
+        javascript = {},
+        typescript = {},
+        typescriptreact = {},
+        javascriptreact = {},
         dart = { 'dartanalyzer' },
       }
 
