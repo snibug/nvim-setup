@@ -2,4 +2,20 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+
+return {
+  -- bufferline for tab management
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require("bufferline").setup{}
+    end,
+  },
+  -- vim-fugitive for git blame/log
+  {
+    'tpope/vim-fugitive',
+    cmd = { "Git", "G" },
+  },
+}

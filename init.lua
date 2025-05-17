@@ -177,23 +177,31 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+-- 파일 리스트(Neo-tree) SHIFT+e
+vim.keymap.set('n', 'E', ':Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
+
+-- 비어있는 탭 열기 SHIFT+t
+vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
+
+-- 다음탭/이전탭 이동 TAB/SHIFT+TAB
+vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', { desc = '다음 탭으로 이동' })
+vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { desc = '이전 탭으로 이동' })
+
+-- gd: Go To Definition (LSP)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go To Definition' })
+
+-- gb: Git blame (vim-fugitive)
+vim.keymap.set('n', 'gb', ':Git blame<CR>', { desc = 'Git Blame' })
+
+-- gl: Git log (vim-fugitive)
+vim.keymap.set('n', 'gl', ':Git log<CR>', { desc = 'Git Log' })
+
+-- SHIFT+o: 현재 탭 닫기(pop)
+vim.keymap.set('n', 'O', ':tabclose<CR>', { desc = '현재 탭 닫기' })
 
 -- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
