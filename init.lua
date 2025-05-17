@@ -707,9 +707,14 @@ require('lazy').setup({
           -- 기본 설정 사용, 필요시 여기에 설정 추가
           root_dir = function(fname)
             local util = require("lspconfig.util")
-            return util.root_pattern("tsconfig.json")(fname)
-                or util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
-                or util.path.dirname(fname)
+            -- 파일의 실제 위치 기준으로 tsconfig.json을 상위 폴더까지 탐색
+            return util.search_ancestors(fname, function(path)
+              if util.path.is_file(util.path.join(path, "tsconfig.json")) then
+                return path
+              end
+            end)
+            or util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
+            or util.path.dirname(fname)
           end,
           settings = {
             -- https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
