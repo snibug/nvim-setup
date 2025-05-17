@@ -50,3 +50,9 @@ return {
     check_external_reqs()
   end,
 }
+
+-- 모든 파일에 대해 indent를 whitespace 2칸으로 통일
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
