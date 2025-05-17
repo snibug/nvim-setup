@@ -180,7 +180,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- 파일 리스트(Neo-tree) SHIFT+e
-vim.keymap.set('n', 'E', ':Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
+vim.keymap.set('n', 'E', '<cmd>Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
 
 -- 비어있는 탭 열기 SHIFT+t
 vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
