@@ -325,6 +325,8 @@ require('lazy').setup({
 
         tsserver = {},
 
+        clangd = {},
+
         dartls = {},
 
         lua_ls = {
@@ -355,6 +357,10 @@ require('lazy').setup({
         'typescript-language-server',
         'eslint_d',
         'marksman',
+        'clangd',
+        'clang-format',
+        'codelldb',
+        'clang-tidy',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -406,6 +412,8 @@ require('lazy').setup({
         typescript = { 'prettier' },
         javascriptreact = { 'prettier' },
         typescriptreact = { 'prettier' },
+        cpp = { 'clang-format' },
+        c = { 'clang-format' },
       },
     },
   },

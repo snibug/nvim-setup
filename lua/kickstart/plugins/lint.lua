@@ -8,6 +8,8 @@ return {
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' }, -- markdownlint 비활성화
         python = { 'flake8' },
+        cpp = { 'clangtidy' },
+        c = { 'clangtidy' },
         -- eslint_d는 formatter로만 사용하고, 진단 메시지는 비활성화
         javascript = {},
         typescript = {},
