@@ -360,7 +360,6 @@ require('lazy').setup({
         'clangd',
         'clang-format',
         'codelldb',
-        'clang-tidy',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
