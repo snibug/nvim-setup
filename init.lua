@@ -20,6 +20,10 @@ vim.o.undofile = true
 vim.o.updatetime = 250
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.api.nvim_set_keymap('n', '<S-e>', '<CMD>Neotree toggle<CR>', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-t>', ':tabnew<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-w>', ':tabclose<CR>', { silent = true, noremap = true })
+
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
