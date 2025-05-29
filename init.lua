@@ -331,6 +331,17 @@ require('lazy').setup({
 
         clangd = {},
 
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = { allFeatures = true },
+              checkOnSave = {
+                command = "clippy",
+              },
+            },
+          },
+        },
+
         dartls = {},
 
         lua_ls = {
@@ -364,6 +375,8 @@ require('lazy').setup({
         'clangd',
         'clang-format',
         'codelldb',
+        'rust-analyzer',
+        'rustfmt',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -413,6 +426,7 @@ require('lazy').setup({
         typescriptreact = { 'prettier' },
         cpp = { 'clang-format' },
         c = { 'clang-format' },
+        rust = { 'rustfmt' },
       },
     },
   },

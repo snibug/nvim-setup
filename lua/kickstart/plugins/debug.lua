@@ -90,6 +90,7 @@ return {
         'js-debug-adapter', -- javascript/typescript
         'dart-debug-adapter', -- dart
         'codelldb', -- c, cpp, rust
+        'rust-analyzer', -- rust
       },
     }
 

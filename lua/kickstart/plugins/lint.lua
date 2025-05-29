@@ -10,6 +10,7 @@ return {
         python = { 'flake8' },
         cpp = { 'clangtidy' },
         c = { 'clangtidy' },
+        rust = { 'clippy' },
         -- eslint_d는 formatter로만 사용하고, 진단 메시지는 비활성화
         javascript = {},
         typescript = {},
