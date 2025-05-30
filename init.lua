@@ -93,7 +93,7 @@ require('lazy').setup({
       local opts = {
         provider = 'gemini',
         gemini = {
-          model = 'gemini-2.5-pro-exp-03-25',
+          model = 'gemini-2.5-pro-preview-05-06',
           temperature = 0,
           max_tokens = 16384,
         },
@@ -138,7 +138,7 @@ require('lazy').setup({
         opts = {
           file_types = { 'markdown', 'Avante' },
         },
-        ft = { "markdown", "Avante" },
+        ft = { 'markdown', 'Avante' },
       },
     },
   },
@@ -394,10 +394,10 @@ require('lazy').setup({
 
         rust_analyzer = {
           settings = {
-            ["rust-analyzer"] = {
+            ['rust-analyzer'] = {
               cargo = { allFeatures = true },
               checkOnSave = {
-                command = "clippy",
+                command = 'clippy',
               },
             },
           },
