@@ -100,6 +100,10 @@ require('lazy').setup({
         -- provider = 'claude',
       }
       require('avante').setup(opts)
+
+      -- Avante 단축키 설정
+      vim.keymap.set({ 'n', 'v' }, '<leader>aa', '<cmd>Avante<cr>', { desc = 'Avante 실행' })
+      vim.keymap.set({ 'n', 'v' }, '<leader>ag', '<cmd>Avante gen<cr>', { desc = 'Avante 생성 (선택 영역)' })
     end,
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = 'make',
