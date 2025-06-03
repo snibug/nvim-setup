@@ -7,7 +7,7 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' }, -- markdownlint 비활성화
-        python = {}, -- flake8 실행 오류(ENOENT) 방지를 위해 비활성화. flake8을 사용하려면 아래 방법으로 설치 후, 이 부분을 ['flake8']로 복원하세요.
+        python = { 'ruff' }, -- ruff를 사용합니다. :MasonInstall ruff 명령어로 설치하세요.
         cpp = { 'clangtidy' },
         c = { 'clangtidy' },
         rust = { 'clippy' },
