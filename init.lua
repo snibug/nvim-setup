@@ -390,7 +390,16 @@ require('lazy').setup({
 
         tsserver = {},
 
-        clangd = {},
+        clangd = {
+          init_options = {
+            fallbackFlags = {
+              -- 프로젝트에서 사용하는 C++ 표준으로 변경하세요. 예: "-std=c++11", "-std=c++14", "-std=c++20", "-std=c++23"
+              "-std=c++17",
+              -- macOS SDK 경로를 clangd에 알려줍니다.
+              "-isysroot", vim.fn.trim(vim.fn.system("xcrun --show-sdk-path"))
+            }
+          }
+        },
 
         rust_analyzer = {
           settings = {
