@@ -24,10 +24,6 @@ vim.api.nvim_set_keymap('n', '<S-e>', '<CMD>Neotree toggle<CR>', { silent = true
 vim.api.nvim_set_keymap('n', '<S-t>', ':tabnew<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<S-w>', ':tabclose<CR>', { silent = true, noremap = true })
 
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' }) -- Avante 단축키 <C-j>와 충돌하여 주석 처리
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', 'E', '<cmd>Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
@@ -102,8 +98,8 @@ require('lazy').setup({
       require('avante').setup(opts)
 
       -- Avante 단축키 설정
-      vim.keymap.set({ 'n', 'v' }, '<C-j>', '<cmd>Avante<cr>', { desc = 'Avante 실행' })
-      vim.keymap.set({ 'n', 'v' }, '<leader>ag', '<cmd>Avante gen<cr>', { desc = 'Avante 생성 (선택 영역)' })
+      vim.keymap.set({ 'n', 'v' }, '<C-j>', '<cmd>AvanteAsk<cr>', { desc = 'Avante 실행' })
+      vim.keymap.set({ 'n', 'v' }, '<C-k>', '<cmd>AvanteClear<cr>', { desc = 'Avante reset' })
     end,
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = 'make',
