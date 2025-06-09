@@ -388,6 +388,8 @@ require('lazy').setup({
 
       local servers = {
 
+        pyright = {}, -- Python LSP 서버 설정 추가
+
         tsserver = {},
 
         clangd = {
@@ -447,11 +449,12 @@ require('lazy').setup({
         'codelldb',
         'rust-analyzer',
         'rustfmt',
+        'pyright', -- Python LSP 서버 추가
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = {},
+        ensure_installed = {}, -- mason-tool-installer에서 관리하므로 여기는 비워둡니다.
         automatic_installation = false,
         handlers = {
           function(server_name)
