@@ -389,6 +389,7 @@ require('lazy').setup({
       local servers = {
 
         pyright = {}, -- Python LSP 서버 설정 추가
+        ruff_lsp = {}, -- Ruff LSP 서버 설정 추가
 
         tsserver = {},
 
@@ -450,6 +451,7 @@ require('lazy').setup({
         'rust-analyzer',
         'rustfmt',
         'pyright', -- Python LSP 서버 추가
+        'ruff-lsp', -- Ruff LSP 서버 추가
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
