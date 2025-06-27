@@ -7,7 +7,7 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' }, -- markdownlint 비활성화
-        python = { 'ruff' }, -- ruff-lsp가 처리하므로 nvim-lint에서는 비활성화
+        python = {}, -- ruff-lsp가 linting을 처리하므로, 여기서는 비활성화합니다.
         cpp = { 'clangtidy' },
         c = { 'clangtidy' },
         rust = { 'clippy' },

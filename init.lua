@@ -487,7 +487,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- 모든 파일에서 format_on_save를 활성화합니다.
         return {
