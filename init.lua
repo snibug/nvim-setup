@@ -278,17 +278,13 @@ require('lazy').setup({
     },
   },
   {
-
     'neovim/nvim-lspconfig',
     dependencies = {
-
-      { 'mason-org/mason.nvim', opts = {} },
-      'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-      { 'j-hui/fidget.nvim', opts = {} },
-
+      'mason-org/mason-lspconfig.nvim',
       'saghen/blink.cmp',
+      { 'j-hui/fidget.nvim', opts = {} },
+      { 'mason-org/mason.nvim', opts = {} },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -387,12 +383,8 @@ require('lazy').setup({
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-
-        pyright = {}, -- Python LSP 서버 설정 추가
-        ruff_lsp = { -- Ruff LSP 서버 설정 추가
-          root_dir = require('lspconfig').util.root_pattern('pyproject.toml', 'ruff.toml', 'requirements.txt', 'setup.py', '.git'),
-        },
-
+        pyright = {},
+        ruff = {},
         tsserver = {},
 
         clangd = {
@@ -454,7 +446,6 @@ require('lazy').setup({
         'rust-analyzer',
         'rustfmt',
         'pyright',
-        'ruff-lsp',
         'ruff',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -473,7 +464,6 @@ require('lazy').setup({
       }
     end,
   },
-
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -499,7 +489,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        python = { 'ruff' },
+        python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
         javascript = { 'prettier' },
         typescript = { 'prettier' },
         javascriptreact = { 'prettier' },
