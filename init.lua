@@ -453,6 +453,7 @@ require('lazy').setup({
         'rustfmt',
         'pyright',
         'ruff-lsp',
+        'ruff',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -496,6 +497,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        python = { 'ruff' },
         javascript = { 'prettier' },
         typescript = { 'prettier' },
         javascriptreact = { 'prettier' },
