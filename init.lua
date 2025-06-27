@@ -389,7 +389,9 @@ require('lazy').setup({
       local servers = {
 
         pyright = {}, -- Python LSP 서버 설정 추가
-        ruff_lsp = {}, -- Ruff LSP 서버 설정 추가
+        ruff_lsp = { -- Ruff LSP 서버 설정 추가
+          root_dir = require('lspconfig').util.root_pattern('pyproject.toml', 'ruff.toml', 'requirements.txt', 'setup.py', '.git'),
+        },
 
         tsserver = {},
 
