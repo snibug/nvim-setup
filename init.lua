@@ -397,11 +397,12 @@ require('lazy').setup({
           init_options = {
             fallbackFlags = {
               -- 프로젝트에서 사용하는 C++ 표준으로 변경하세요. 예: "-std=c++11", "-std=c++14", "-std=c++20", "-std=c++23"
-              "-std=c++17",
+              '-std=c++17',
               -- macOS SDK 경로를 clangd에 알려줍니다.
-              "-isysroot", vim.fn.trim(vim.fn.system("xcrun --show-sdk-path"))
-            }
-          }
+              '-isysroot',
+              vim.fn.trim(vim.fn.system 'xcrun --show-sdk-path'),
+            },
+          },
         },
 
         rust_analyzer = {
@@ -450,8 +451,8 @@ require('lazy').setup({
         'codelldb',
         'rust-analyzer',
         'rustfmt',
-        'pyright', -- Python LSP 서버 추가
-        'ruff-lsp', -- Ruff LSP 서버 추가
+        'pyright',
+        'ruff-lsp',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
