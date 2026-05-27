@@ -6,17 +6,11 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        -- markdown = { 'markdownlint' }, -- markdownlint 비활성화
-        python = {}, -- ruff-lsp가 linting을 처리하므로, 여기서는 비활성화합니다.
-        cpp = { 'clangtidy' },
-        c = { 'clangtidy' },
-        rust = { 'clippy' },
-        -- eslint_d는 formatter로만 사용하고, 진단 메시지는 비활성화
-        javascript = {},
-        typescript = {},
-        typescriptreact = {},
-        javascriptreact = {},
-        dart = {},
+        javascript = { 'biomejs' },
+        typescript = { 'biomejs' },
+        javascriptreact = { 'biomejs' },
+        typescriptreact = { 'biomejs' },
+        python = { 'ruff' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -57,20 +51,27 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          -- Only run the linter in buffers that you can modify in order to
-          -- avoid superfluous noise, notably within the handy LSP pop-ups that
-          -- describe the hovered symbol using Markdown.
-          if vim.bo.modifiable then
-            lint.try_lint()
+          -- Only run the linter in buffers that you can modify
+          if not vim.opt_local.modifiable:get() then
+            return
           end
+
+          -- For JS/TS files, only run biome if a biome config exists
+          local ft = vim.bo.filetype
+          local biome_fts = { javascript = true, typescript = true, javascriptreact = true, typescriptreact = true }
+          if biome_fts[ft] then
+            local biome_config = vim.fs.find({
+              'biome.json',
+              'biome.jsonc',
+            }, { upward = true })
+            if #biome_config == 0 then
+              return
+            end
+          end
+
+          lint.try_lint()
         end,
       })
-
-      -- 모든 파일에 대해 indent를 whitespace 2칸으로 통일
-      vim.opt.tabstop = 2
-      vim.opt.shiftwidth = 2
-      vim.opt.softtabstop = 2
-      vim.opt.expandtab = true
     end,
   },
 }

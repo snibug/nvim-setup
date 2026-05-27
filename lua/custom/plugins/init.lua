@@ -4,23 +4,13 @@
 -- See the kickstart.nvim README for more information
 
 return {
-  -- copilot.vim for GitHub Copilot AI code completion
-  {
-    "github/copilot.vim",
-    event = "InsertEnter",
-    config = function()
-      -- Copilot 기본 단축키 설정 (옵션)
-      vim.g.copilot_no_tab_map = true
-      vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { expr = true, silent = true, noremap = true, replace_keycodes = false })
-    end,
-  },
   -- bufferline for tab management
   {
     'akinsho/bufferline.nvim',
-    version = "*",
+    version = '*',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require("bufferline").setup{}
+      require('bufferline').setup {}
       -- 모든 파일에 대해 indent를 whitespace 2칸으로 통일
       vim.opt.tabstop = 2
       vim.opt.shiftwidth = 2
@@ -31,18 +21,18 @@ return {
   -- vim-fugitive for git blame/log
   {
     'tpope/vim-fugitive',
-    cmd = { "Git", "G" },
+    cmd = { 'Git', 'G' },
   },
   -- flutter/dart 개발을 위한 플러그인
   {
-    "akinsho/flutter-tools.nvim",
+    'akinsho/flutter-tools.nvim',
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "stevearc/dressing.nvim", -- optional for enhanced UI
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for enhanced UI
     },
-    ft = { "dart" },
+    ft = { 'dart' },
     config = function()
-      require("flutter-tools").setup {
+      require('flutter-tools').setup {
         lsp = {
           color = { enabled = true },
           on_attach = function(_, bufnr)
@@ -57,40 +47,78 @@ return {
     end,
   },
 
-  -- rust 개발을 위한 rust-tools.nvim 플러그인
+
+  -- crates.io 종속성 관리를 위한 플러그인
   {
-    "simrat39/rust-tools.nvim",
-    ft = { "rust" },
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-lua/plenary.nvim",
-      "mfussenegger/nvim-dap",
-    },
+    'saecki/crates.nvim',
+    ft = { 'rust', 'toml' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
-      local rt = require("rust-tools")
-      rt.setup({
+      require('crates').setup()
+    end,
+  },
+
+  -- Rust 개발 환경 강화 (rustaceanvim)
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    lazy = false, -- This plugin is already lazy
+    ft = { 'rust' },
+    config = function()
+      vim.g.rustaceanvim = {
+        -- Plugin configuration
+        tools = {
+        },
+        -- LSP configuration
         server = {
-          on_attach = function(_, bufnr)
-            -- rust 관련 단축키 예시
-            vim.keymap.set("n", "<leader>rr", rt.runnables.runnables, { buffer = bufnr, desc = "Rust Runnables" })
-            vim.keymap.set("n", "<leader>rd", rt.debuggables.debuggables, { buffer = bufnr, desc = "Rust Debuggables" })
+          on_attach = function(client, bufnr)
+            -- you can also put keymaps in here
           end,
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = { allFeatures = true },
-              checkOnSave = {
-                command = "clippy",
-              },
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ['rust-analyzer'] = {
             },
           },
         },
+        -- DAP configuration
         dap = {
-          adapter = require('rust-tools.dap').get_codelldb_adapter(
-            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb",
-            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/lldb/lib/liblldb.dylib"
-          ),
         },
-      })
+      }
     end,
+  },
+
+  -- JSX/TSX 태그 자동 닫기 (Next.js 효율)
+  {
+    'windwp/nvim-ts-autotag',
+    ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end,
+  },
+
+  -- Git 워크플로우 개선 (Neogit)
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',         -- required
+      'sindrets/diffview.nvim',        -- optional - Diff integration
+      'nvim-telescope/telescope.nvim', -- optional
+    },
+    cmd = 'Neogit',
+    config = true,
+  },
+
+  -- Git Diff 뷰어 (Diffview)
+  {
+    'sindrets/diffview.nvim',
+    cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles' },
+  },
+
+  -- Markdown Preview (브라우저에서 미리보기)
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    ft = { 'markdown' },
+    build = 'cd app && npm install',
   },
 }

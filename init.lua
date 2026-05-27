@@ -26,12 +26,27 @@ vim.api.nvim_set_keymap('n', '<S-w>', ':tabclose<CR>', { silent = true, noremap 
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', 'E', '<cmd>Neotree toggle<CR>', { desc = '파일 리스트(Neo-tree) 토글' })
+vim.keymap.set('n', 'E', function()
+  local manager = require 'neo-tree.sources.manager'
+  local state = manager.get_state 'filesystem'
+  local win = state and state.winid
+  if win and vim.api.nvim_win_is_valid(win) then
+    if vim.api.nvim_get_current_win() == win then
+      vim.cmd 'wincmd p'
+    else
+      vim.api.nvim_set_current_win(win)
+    end
+  else
+    vim.cmd 'Neotree show'
+  end
+end, { desc = 'Neo-tree 열기/포커스 토글' })
+vim.keymap.set('n', '<C-b>', '<cmd>MarkdownPreviewToggle<CR>', { desc = 'Markdown 브라우저 미리보기 토글' })
 vim.keymap.set('n', 'O', ':tabclose<CR>', { desc = '현재 탭 닫기' })
 vim.keymap.set('n', 'T', ':tabnew<CR>', { desc = '새 탭 열기' })
-vim.keymap.set('n', 'gb', ':Git blame<CR>', { desc = 'Git Blame' })
+vim.keymap.set('n', 'gb', ':Gitsigns blame_line<CR>', { desc = 'Git Blame (Gitsigns)' })
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go To Definition' })
 vim.keymap.set('n', 'gl', ':Git log<CR>', { desc = 'Git Log' })
+
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 vim.schedule(function()
@@ -60,6 +75,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  desc = 'Remove trailing whitespace on save',
+  group = vim.api.nvim_create_augroup('kickstart-remove-trailing-whitespace', { clear = true }),
+  callback = function()
+    vim.cmd [[%s/\s\+$//e]]
   end,
 })
 
@@ -114,7 +137,7 @@ require('lazy').setup({
       'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
       'ibhagwan/fzf-lua', -- for file_selector provider fzf
       'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
-      'zbirenbaum/copilot.lua', -- for providers='copilot'
+      -- 'zbirenbaum/copilot.lua', -- for providers='copilot'
       {
         -- support for image pasting
         'HakonHarnes/img-clip.nvim',
@@ -399,17 +422,6 @@ require('lazy').setup({
           },
         },
 
-        rust_analyzer = {
-          settings = {
-            ['rust-analyzer'] = {
-              cargo = { allFeatures = true },
-              checkOnSave = {
-                command = 'clippy',
-              },
-            },
-          },
-        },
-
         dartls = {},
 
         lua_ls = {
@@ -438,15 +450,15 @@ require('lazy').setup({
       local ensure_installed = {
         'stylua',
         'typescript-language-server',
-        'eslint_d',
+        'biome',
         'marksman',
+        'markdownlint',
         'clangd',
         'clang-format',
         'codelldb',
-        'rust-analyzer',
-        'rustfmt',
         'pyright',
         'ruff',
+        'pgformatter',
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -455,6 +467,10 @@ require('lazy').setup({
         automatic_installation = false,
         handlers = {
           function(server_name)
+            -- rustaceanvim handles rust-analyzer configuration
+            if server_name == 'rust_analyzer' then
+              return
+            end
             local server = servers[server_name] or {}
 
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
@@ -483,20 +499,21 @@ require('lazy').setup({
       format_on_save = function(bufnr)
         -- 모든 파일에서 format_on_save를 활성화합니다.
         return {
-          timeout_ms = 500,
+          timeout_ms = 2000,
           lsp_format = 'fallback',
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
         python = { 'ruff_fix', 'ruff_format' },
-        javascript = { 'prettier' },
-        typescript = { 'prettier' },
-        javascriptreact = { 'prettier' },
-        typescriptreact = { 'prettier' },
+        javascript = { 'biome' },
+        typescript = { 'biome' },
+        javascriptreact = { 'biome' },
+        typescriptreact = { 'biome' },
         cpp = { 'clang-format' },
         c = { 'clang-format' },
         rust = { 'rustfmt' },
+        sql = { 'pg_format' },
       },
     },
   },
@@ -506,6 +523,7 @@ require('lazy').setup({
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
+      'onsails/lspkind.nvim',
 
       {
         'L3MON4D3/LuaSnip',
@@ -538,19 +556,17 @@ require('lazy').setup({
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
       },
 
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
-        providers = {
-          lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-        },
-      },
-
-      snippets = { preset = 'luasnip' },
-
-      fuzzy = { implementation = 'lua' },
-
       signature = { enabled = true },
     },
+    config = function(_, opts)
+      require('blink.cmp').setup(opts)
+      vim.api.nvim_set_hl(0, 'CmpItemKindSupermaven', { fg = '#6CC644' })
+      require('lspkind').init {
+        symbol_map = {
+          Supermaven = '',
+        },
+      }
+    end,
   },
 
   {
@@ -566,6 +582,12 @@ require('lazy').setup({
 
       vim.cmd.colorscheme 'tokyonight-night'
     end,
+  },
+
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+    lazy = false,
   },
 
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -610,6 +632,13 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns',
+
+  {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({})
+    end,
+  },
 
   { import = 'custom.plugins' },
 }, {
