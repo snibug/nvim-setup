@@ -1,4 +1,4 @@
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.breakindent = true
@@ -15,6 +15,7 @@ vim.o.signcolumn = 'yes'
 vim.o.smartcase = true
 vim.o.splitbelow = true
 vim.o.splitright = true
+vim.o.termguicolors = true
 vim.o.timeoutlen = 300
 vim.o.undofile = true
 vim.o.updatetime = 250
@@ -100,71 +101,6 @@ rtp:prepend(lazypath)
 
 require('lazy').setup({
   'NMAC427/guess-indent.nvim',
-
-  {
-    'yetone/avante.nvim',
-    provider = 'gemini',
-    event = 'VeryLazy',
-    lazy = false,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    opts = {},
-    config = function()
-      local opts = {
-        provider = 'gemini',
-        gemini = {
-          model = 'gemini-2.5-pro-preview-05-06',
-          temperature = 0,
-          max_tokens = 16384,
-        },
-        -- provider = 'claude',
-      }
-      require('avante').setup(opts)
-
-      -- Avante 단축키 설정
-      vim.keymap.set({ 'n', 'v' }, '<C-j>', '<cmd>AvanteAsk<cr>', { desc = 'Avante 실행' })
-      vim.keymap.set({ 'n', 'v' }, '<C-k>', '<cmd>AvanteClear<cr>', { desc = 'Avante reset' })
-    end,
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = 'make',
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      'stevearc/dressing.nvim',
-      'nvim-lua/plenary.nvim',
-      'MunifTanjim/nui.nvim',
-      --- The below dependencies are optional,
-      'echasnovski/mini.pick', -- for file_selector provider mini.pick
-      'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
-      'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
-      'ibhagwan/fzf-lua', -- for file_selector provider fzf
-      'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
-      -- 'zbirenbaum/copilot.lua', -- for providers='copilot'
-      {
-        -- support for image pasting
-        'HakonHarnes/img-clip.nvim',
-        event = 'VeryLazy',
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { 'markdown', 'Avante' },
-        },
-        ft = { 'markdown', 'Avante' },
-      },
-    },
-  },
 
   {
     'lewis6991/gitsigns.nvim',
@@ -611,6 +547,7 @@ require('lazy').setup({
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    branch = 'master',
     main = 'nvim-treesitter.configs',
 
     opts = {
@@ -632,13 +569,6 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns',
-
-  {
-    "supermaven-inc/supermaven-nvim",
-    config = function()
-      require("supermaven-nvim").setup({})
-    end,
-  },
 
   { import = 'custom.plugins' },
 }, {
